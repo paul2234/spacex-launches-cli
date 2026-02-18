@@ -36,7 +36,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           deploy_key: ${{ secrets.DEPLOY_KEY }}
-          external_repository: paul2234/spacex-cli-data
+          external_repository: paul2234/spacex-launches-cli-data
           publish_branch: gh-pages
           publish_dir: ./data
           keep_files: false

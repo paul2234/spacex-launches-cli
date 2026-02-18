@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-A CLI tool for tracking upcoming SpaceX launches, distributed via npm (`npx spacex-cli`). Launch data is pre-fetched from the SpaceDevs API by a data pipeline (GitHub Action) and served as static JSON from GitHub Pages. The CLI fetches this cached data — it never calls the SpaceDevs API directly.
+A CLI tool for tracking upcoming SpaceX launches, distributed via npm (`npx spacex-launches-cli`). Launch data is pre-fetched from the SpaceDevs API by a data pipeline (GitHub Action) and served as static JSON from GitHub Pages. The CLI fetches this cached data — it never calls the SpaceDevs API directly.
 
 ## Tech Stack
 
@@ -25,9 +25,9 @@ src/
   cli/
     index.ts             # CLI entry point (Commander program, shebang)
     commands/
-      next.ts            # `spacex next` — show next launch + countdown
-      list.ts            # `spacex list` — table of upcoming launches
-      detail.ts          # `spacex detail <id>` — full launch details
+      next.ts            # `spacex-launches next` — show next launch + countdown
+      list.ts            # `spacex-launches list` — table of upcoming launches
+      detail.ts          # `spacex-launches detail <id>` — full launch details
     formatters.ts        # Terminal formatting helpers (tables, countdown, colors)
   client.ts              # Fetches pre-cached JSON from GitHub Pages CDN
   types.ts               # Domain types (Launch, Mission, Pad, Rocket, etc.)
@@ -52,7 +52,7 @@ tests/
 ```
 
 **Entry point** (built by tsup):
-- `src/cli/index.ts` → `dist/cli.js` → `spacex` CLI binary (via `package.json` `bin` field)
+- `src/cli/index.ts` → `dist/cli.js` → `spacex-launches` CLI binary (via `package.json` `bin` field)
 
 **Data flow:**
 ```
@@ -106,7 +106,7 @@ SPACEX_CLI_CDN_URL=http://localhost:8787 npx tsx src/cli/index.ts next
 **Building for distribution:**
 ```bash
 npm run build          # produces dist/cli.js
-npm link               # makes `spacex` command available globally
+npm link               # makes `spacex-launches` command available globally
 ```
 
 ## Data Sources
@@ -144,7 +144,7 @@ https://<user>.github.io/spacex-cli-data/
 
 | Variable | Used by | Default | Purpose |
 |----------|---------|---------|---------|
-| `SPACEX_CLI_CDN_URL` | CLI | `https://paulanderson.github.io/spacex-cli-data` | Base URL for cached JSON |
+| `SPACEX_CLI_CDN_URL` | CLI | `https://paul2234.github.io/spacex-launches-cli-data` | Base URL for cached JSON |
 | `LL2_API_URL` | Pipeline | `https://lldev.thespacedevs.com/2.3.0` | SpaceDevs API base URL |
 | `OUTPUT_DIR` | Pipeline | `data` | Directory to write JSON output |
 
@@ -160,3 +160,4 @@ https://<user>.github.io/spacex-cli-data/
 | Dev API as default locally | `lldev.thespacedevs.com` for local pipeline runs | 20x higher rate limit (300/hr vs 15/hr). Same data as production. |
 | ESM only | No CommonJS support | Modern Node.js standard. All dependencies are ESM-compatible. |
 | Minimal dependencies | Only `commander` + `chalk` as runtime deps | Published package is ~3KB compressed. No bloat for CLI-only users. |
+| Package name | `spacex-launches-cli` on npm, `spacex-launches` bin command | `spacex-cli` was taken on npm. Bin command is shorter for daily use. |

@@ -6,7 +6,7 @@ import { detailCommand } from './commands/detail.js';
 const program = new Command();
 
 program
-  .name('spacex')
+  .name('spacex-launches')
   .description('Track upcoming SpaceX launches from the command line')
   .version('0.1.0')
   .option('--local', 'Show launch times in your local timezone instead of UTC');

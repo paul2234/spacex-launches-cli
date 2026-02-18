@@ -1,10 +1,10 @@
 {
-  "name": "spacex-cli",
+  "name": "spacex-launches-cli",
   "version": "0.1.0",
   "description": "CLI tool for tracking upcoming SpaceX launches",
   "type": "module",
   "bin": {
-    "spacex": "./dist/cli.js"
+    "spacex-launches": "./dist/cli.js"
   },
   "files": [
     "dist"
