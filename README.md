@@ -57,6 +57,24 @@ spacex-launches detail <id>
 | -------- | ---------------------------------------------------------- |
 | `id`     | Launch ID or slug (find these with `spacex-launches list`) |
 
+### `spacex-launches browse`
+
+Interactively browse upcoming launches in a full-screen TUI. Scroll through
+the list and press Enter to view details for any launch.
+
+```sh
+spacex-launches browse
+```
+
+| Key                 | Action              |
+| ------------------- | ------------------- |
+| `Up` / `k`          | Move selection up   |
+| `Down` / `j`        | Move selection down |
+| `Enter`             | View launch details |
+| `Esc` / `Backspace` | Back to list        |
+| `PgUp` / `PgDn`     | Scroll by page      |
+| `q`                 | Quit                |
+
 ## Global Options
 
 These options work with any command:
