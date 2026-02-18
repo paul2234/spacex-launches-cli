@@ -1,6 +1,6 @@
 {
   "name": "spacex-launches-cli",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "CLI tool for tracking upcoming SpaceX launches",
   "type": "module",
   "bin": {
