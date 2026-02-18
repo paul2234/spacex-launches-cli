@@ -1,0 +1,43 @@
+name: Update Launch Data
+
+on:
+  schedule:
+    # Run every 5 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run data pipeline
+        run: npm run pipeline
+        env:
+          LL2_API_URL: https://ll.thespacedevs.com/2.3.0
+          OUTPUT_DIR: data
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          external_repository: paul2234/spacex-cli-data
+          publish_branch: gh-pages
+          publish_dir: ./data
+          keep_files: false
+          commit_message: 'Update launch data'
