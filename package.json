@@ -4,7 +4,8 @@
   "description": "CLI tool for tracking upcoming SpaceX launches",
   "type": "module",
   "bin": {
-    "spacex-launches": "./dist/cli.js"
+    "spacex-launches": "./dist/cli.js",
+    "spacex-launches-cli": "./dist/cli.js"
   },
   "files": [
     "dist"
