@@ -2,10 +2,14 @@ import chalk from 'chalk';
 import { getLaunchById } from '../../client.js';
 import { formatLaunchDetail } from '../formatters.js';
 
+interface DetailOptions {
+  useLocalTime?: boolean;
+}
+
 /**
  * Handler for `spacex detail <id>` — show full details for a specific launch.
  */
-export async function detailCommand(id: string): Promise<void> {
+export async function detailCommand(id: string, options: DetailOptions = {}): Promise<void> {
   try {
     const launch = await getLaunchById(id);
 
@@ -19,7 +23,7 @@ export async function detailCommand(id: string): Promise<void> {
     console.log(chalk.bold.cyan('  Launch Details'));
     console.log(chalk.dim(`  ${'─'.repeat(40)}`));
     console.log('');
-    console.log(formatLaunchDetail(launch));
+    console.log(formatLaunchDetail(launch, options.useLocalTime));
     console.log('');
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';

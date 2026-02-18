@@ -4,6 +4,7 @@ import { formatLaunchTable } from '../formatters.js';
 
 interface ListOptions {
   limit?: string;
+  useLocalTime?: boolean;
 }
 
 /**
@@ -29,7 +30,7 @@ export async function listCommand(options: ListOptions): Promise<void> {
     console.log('');
     console.log(chalk.bold.cyan('  Upcoming SpaceX Launches'));
     console.log('');
-    console.log(formatLaunchTable(limited));
+    console.log(formatLaunchTable(limited, options.useLocalTime));
     console.log('');
     console.log(chalk.dim(`  Data updated: ${new Date(updatedAt).toUTCString()}`));
     console.log('');

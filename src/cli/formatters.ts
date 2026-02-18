@@ -60,9 +60,9 @@ export function formatStatus(status: LaunchStatus): string {
 
 /**
  * Format a date string for display.
- * Returns e.g. "Feb 18, 2026 at 08:00 UTC"
+ * Returns e.g. "Feb 18, 2026 at 08:00 UTC" or local equivalent.
  */
-export function formatDate(isoDate: string): string {
+export function formatDate(isoDate: string, useLocalTime = false): string {
   const date = new Date(isoDate);
   return date.toLocaleDateString('en-US', {
     month: 'short',
@@ -70,7 +70,7 @@ export function formatDate(isoDate: string): string {
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    timeZone: 'UTC',
+    timeZone: useLocalTime ? undefined : 'UTC',
     timeZoneName: 'short',
     hour12: false,
   });
@@ -79,13 +79,13 @@ export function formatDate(isoDate: string): string {
 /**
  * Format a single launch as a detailed card for the "next" and "detail" commands.
  */
-export function formatLaunchDetail(launch: Launch): string {
+export function formatLaunchDetail(launch: Launch, useLocalTime = false): string {
   const lines: string[] = [];
 
   lines.push(chalk.bold.white(`  ${launch.name}`));
   lines.push('');
   lines.push(`  ${chalk.dim('Status:')}    ${formatStatus(launch.status)}`);
-  lines.push(`  ${chalk.dim('NET:')}       ${formatDate(launch.net)}`);
+  lines.push(`  ${chalk.dim('NET:')}       ${formatDate(launch.net, useLocalTime)}`);
   lines.push(`  ${chalk.dim('Countdown:')} ${formatCountdown(launch.net)}`);
   lines.push(`  ${chalk.dim('Rocket:')}    ${launch.rocket.name}`);
   lines.push(`  ${chalk.dim('Pad:')}       ${launch.pad.name}`);
@@ -122,7 +122,7 @@ export function formatLaunchDetail(launch: Launch): string {
 /**
  * Format launches as a table for the "list" command.
  */
-export function formatLaunchTable(launches: Launch[]): string {
+export function formatLaunchTable(launches: Launch[], useLocalTime = false): string {
   if (launches.length === 0) {
     return chalk.yellow('  No upcoming launches found.');
   }
@@ -130,17 +130,18 @@ export function formatLaunchTable(launches: Launch[]): string {
   const lines: string[] = [];
 
   // Header
-  const header = `  ${pad('Date', 22)} ${pad('Status', 14)} ${pad('Rocket', 20)} ${'Mission'}`;
+  const header = `  ${pad('Date', 22)} ${pad('Status', 14)} ${pad('Rocket', 20)} ${pad('Location', 30)} ${'Mission'}`;
   lines.push(chalk.bold.white(header));
-  lines.push(chalk.dim(`  ${'─'.repeat(76)}`));
+  lines.push(chalk.dim(`  ${'─'.repeat(106)}`));
 
   for (const launch of launches) {
-    const date = formatDateShort(launch.net);
+    const date = formatDateShort(launch.net, useLocalTime);
     const status = formatStatusShort(launch.status);
     const rocket = launch.rocket.name;
+    const location = launch.pad.location;
     const mission = launch.mission?.name ?? launch.name;
 
-    lines.push(`  ${pad(date, 22)} ${pad(status, 14)} ${pad(rocket, 20)} ${mission}`);
+    lines.push(`  ${pad(date, 22)} ${pad(status, 14)} ${pad(rocket, 20)} ${pad(location, 30)} ${mission}`);
   }
 
   lines.push('');
@@ -152,14 +153,14 @@ export function formatLaunchTable(launches: Launch[]): string {
 /**
  * Short date format for tables: "Feb 18, 08:00 UTC"
  */
-function formatDateShort(isoDate: string): string {
+function formatDateShort(isoDate: string, useLocalTime = false): string {
   const date = new Date(isoDate);
   return date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    timeZone: 'UTC',
+    timeZone: useLocalTime ? undefined : 'UTC',
     timeZoneName: 'short',
     hour12: false,
   });

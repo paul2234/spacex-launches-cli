@@ -96,8 +96,10 @@ describe('formatLaunchTable', () => {
     expect(result).toContain('Date');
     expect(result).toContain('Status');
     expect(result).toContain('Rocket');
+    expect(result).toContain('Location');
     expect(result).toContain('Mission');
     expect(result).toContain('Falcon 9 Block 5');
+    expect(result).toContain('Cape Canaveral');
     expect(result).toContain('Starlink Group 1-1');
     expect(result).toContain('1 upcoming launches');
   });
