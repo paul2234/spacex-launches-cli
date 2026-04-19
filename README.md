@@ -1,6 +1,7 @@
 # spacex-launches-cli
 
 CLI tool for tracking upcoming SpaceX launches.
+Last updated: 4/19/2026
 
 ## Quick Start
 
